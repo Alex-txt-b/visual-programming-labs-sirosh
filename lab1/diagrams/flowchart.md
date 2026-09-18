@@ -18,8 +18,8 @@ flowchart TD
     FindCourier --> Accept[Курьер принял заказ]
     
     Pack --> Take[Курьер забрал заказ]
-    Accept --> Take
+    Take --> SMS[Отправка SMS уведомления]
+    SMS --> Deliver[Доставка клиенту]
     
-    Take --> Deliver[Доставка клиенту]
     Deliver --> Done([Конец: Заказ получен])
 ```
