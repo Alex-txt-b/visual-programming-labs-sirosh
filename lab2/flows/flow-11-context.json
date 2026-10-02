@@ -1,0 +1,133 @@
+[
+    {
+        "id": "tab_flow_11_sirosh",
+        "type": "tab",
+        "label": "Flow 11 - Sirosh Files",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "inject_write_sirosh",
+        "type": "inject",
+        "z": "tab_flow_11_sirosh",
+        "name": "Сирош AI241 (Запись данных)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 140,
+        "wires": [
+            [
+                "fn_prepare_data"
+            ]
+        ]
+    },
+    {
+        "id": "fn_prepare_data",
+        "type": "function",
+        "z": "tab_flow_11_sirosh",
+        "name": "Формирование данных (JSON)",
+        "func": "const record = {\n    student: \"Сирош AI241\",\n    savedAt: new Date().toLocaleString(),\n    sensorValue: Math.floor(Math.random() * 100)\n};\n\n// Преобразуем объект в красивую JSON-строку\nmsg.payload = JSON.stringify(record, null, 2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 140,
+        "wires": [
+            [
+                "file_out_node"
+            ]
+        ]
+    },
+    {
+        "id": "file_out_node",
+        "type": "file",
+        "z": "tab_flow_11_sirosh",
+        "name": "Запись в data.json",
+        "filename": "data.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 750,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "inject_read",
+        "type": "inject",
+        "z": "tab_flow_11_sirosh",
+        "name": "Чтение данных",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 240,
+        "wires": [
+            [
+                "file_in_node"
+            ]
+        ]
+    },
+    {
+        "id": "file_in_node",
+        "type": "file in",
+        "z": "tab_flow_11_sirosh",
+        "name": "Чтение из data.json",
+        "filename": "data.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "utf8",
+        "allProps": false,
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "debug_read_out"
+            ]
+        ]
+    },
+    {
+        "id": "debug_read_out",
+        "type": "debug",
+        "z": "tab_flow_11_sirosh",
+        "name": "Вывод прочитанного",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 240,
+        "wires": []
+    }
+]
