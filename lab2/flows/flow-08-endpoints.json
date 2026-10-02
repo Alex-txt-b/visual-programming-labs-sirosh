@@ -1,0 +1,167 @@
+[
+    {
+        "id": "tab_flow_08_sirosh",
+        "type": "tab",
+        "label": "Flow 08 - Sirosh Endpoints",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "http_in_text",
+        "type": "http in",
+        "z": "tab_flow_08_sirosh",
+        "name": "Сирош AI241 (GET /api/text)",
+        "url": "/api/text",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "template_text"
+            ]
+        ]
+    },
+    {
+        "id": "template_text",
+        "type": "template",
+        "z": "tab_flow_08_sirosh",
+        "name": "Формирование текста",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "text",
+        "syntax": "plain",
+        "template": "Привет! Это простой текстовый ответ от сервера Node-RED.",
+        "output": "str",
+        "x": 510,
+        "y": 120,
+        "wires": [
+            [
+                "http_res_text"
+            ]
+        ]
+    },
+    {
+        "id": "http_res_text",
+        "type": "http response",
+        "z": "tab_flow_08_sirosh",
+        "name": "HTTP Ответ (Текст)",
+        "statusCode": "200",
+        "headers": {
+            "Content-Type": "text/plain; charset=utf-8"
+        },
+        "x": 750,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "http_in_info",
+        "type": "http in",
+        "z": "tab_flow_08_sirosh",
+        "name": "GET /api/info",
+        "url": "/api/info",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 220,
+        "wires": [
+            [
+                "change_info"
+            ]
+        ]
+    },
+    {
+        "id": "change_info",
+        "type": "change",
+        "z": "tab_flow_08_sirosh",
+        "name": "Формирование JSON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"student\":\"Сирош AI241\",\"status\":\"online\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "http_res_info"
+            ]
+        ]
+    },
+    {
+        "id": "http_res_info",
+        "type": "http response",
+        "z": "tab_flow_08_sirosh",
+        "name": "HTTP Ответ (JSON)",
+        "statusCode": "200",
+        "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        "x": 750,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "http_in_items",
+        "type": "http in",
+        "z": "tab_flow_08_sirosh",
+        "name": "GET /api/items/:id",
+        "url": "/api/items/:id",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 320,
+        "wires": [
+            [
+                "fn_check_items"
+            ]
+        ]
+    },
+    {
+        "id": "fn_check_items",
+        "type": "function",
+        "z": "tab_flow_08_sirosh",
+        "name": "Поиск элемента и валидация",
+        "func": "const id = msg.req.params.id;\n\n// База данных элементов\nconst items = {\n    \"1\": { \"id\": 1, \"name\": \"Ноутбук\", \"category\": \"electronics\" },\n    \"2\": { \"id\": 2, \"name\": \"Мышь\", \"category\": \"accessories\" },\n    \"3\": { \"id\": 3, \"name\": \"Клавиатура\", \"category\": \"accessories\" }\n};\n\n// 1. Проверка на нечисловой параметр (Ошибка 400 Bad Request)\nif (isNaN(id)) {\n    msg.statusCode = 400;\n    msg.payload = {\n        \"error\": \"Bad Request\",\n        \"message\": \"Параметр id должен быть числом\"\n    };\n    return msg;\n}\n\n// 2. Проверка наличия элемента (Успех 200 или Ошибка 404 Not Found)\nif (items[id]) {\n    msg.statusCode = 200;\n    msg.payload = items[id];\n} else {\n    msg.statusCode = 404;\n    msg.payload = {\n        \"error\": \"Not Found\",\n        \"message\": `Элемент с id=${id} не найден`\n    };\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 320,
+        "wires": [
+            [
+                "http_res_items"
+            ]
+        ]
+    },
+    {
+        "id": "http_res_items",
+        "type": "http response",
+        "z": "tab_flow_08_sirosh",
+        "name": "HTTP Ответ (Items)",
+        "statusCode": "",
+        "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        "x": 750,
+        "y": 320,
+        "wires": []
+    }
+]
