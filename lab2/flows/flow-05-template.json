@@ -1,0 +1,74 @@
+[
+    {
+        "id": "tab_flow_05",
+        "type": "tab",
+        "label": "Flow 05 - Sirosh Template",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "inject_node_05",
+        "type": "inject",
+        "z": "tab_flow_05",
+        "name": "Данные студента (Сирош AI241)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "lab2/sirosh/template",
+        "payload": "{\"lastName\":\"Сирош\",\"firstName\":\"Александр\",\"group\":\"AI241\",\"lab\":\"Лабораторная работа №2\"}",
+        "payloadType": "json",
+        "x": 560,
+        "y": 520,
+        "wires": [
+            [
+                "template_node_05"
+            ]
+        ]
+    },
+    {
+        "id": "template_node_05",
+        "type": "template",
+        "z": "tab_flow_05",
+        "name": "Генерация отчета (Mustache)",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "text",
+        "syntax": "mustache",
+        "template": "=== КАРТОЧКА СТУДЕНТА ===\nСтудент: {{payload.lastName}} {{payload.firstName}}\nГруппа: {{payload.group}}\nРабота: {{payload.lab}}\nТопик: {{topic}}\nСтатус: Шаблон Mustache успешно сформирован!",
+        "output": "str",
+        "x": 850,
+        "y": 520,
+        "wires": [
+            [
+                "debug_node_05"
+            ]
+        ]
+    },
+    {
+        "id": "debug_node_05",
+        "type": "debug",
+        "z": "tab_flow_05",
+        "name": "Вывод текста",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 520,
+        "wires": []
+    }
+]
