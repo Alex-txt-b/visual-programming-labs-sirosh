@@ -1,0 +1,72 @@
+[
+    {
+        "id": "node_debug_sirosh",
+        "type": "debug",
+        "z": "tab_sirosh_ai241",
+        "name": "Sirosh AI241 Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "node_inject_sirosh",
+        "type": "inject",
+        "z": "tab_sirosh_ai241",
+        "name": "Sirosh AI241 (Запрос)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "Sirosh/AI241",
+        "payload": "Александр Сирош AI241",
+        "payloadType": "str",
+        "x": 290,
+        "y": 460,
+        "wires": [
+            [
+                "node_http_sirosh"
+            ]
+        ]
+    },
+    {
+        "id": "node_http_sirosh",
+        "type": "http request",
+        "z": "tab_sirosh_ai241",
+        "name": "Sirosh - Chuck Norris API",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.chucknorris.io/jokes/random",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 560,
+        "y": 460,
+        "wires": [
+            [
+                "node_debug_sirosh"
+            ]
+        ]
+    }
+]
