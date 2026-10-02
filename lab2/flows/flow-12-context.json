@@ -1,0 +1,96 @@
+[
+    {
+        "id": "tab_flow_12_sirosh",
+        "type": "tab",
+        "label": "Flow 12 - Sirosh Context",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "sirosh_inject_inc",
+        "type": "inject",
+        "z": "tab_flow_12_sirosh",
+        "name": "Сирош AI241 (Шаг +1)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "inc",
+        "payloadType": "str",
+        "x": 200,
+        "y": 500,
+        "wires": [
+            [
+                "fn_counter_context"
+            ]
+        ]
+    },
+    {
+        "id": "inject_reset",
+        "type": "inject",
+        "z": "tab_flow_12_sirosh",
+        "name": "Сбросить счётчик",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "reset",
+        "payloadType": "str",
+        "x": 190,
+        "y": 580,
+        "wires": [
+            [
+                "fn_counter_context"
+            ]
+        ]
+    },
+    {
+        "id": "fn_counter_context",
+        "type": "function",
+        "z": "tab_flow_12_sirosh",
+        "name": "Логика счётчика (flow context)",
+        "func": "// 1. Читаем текущее значение из контекста потока (если его нет — начинаем с 0)\nlet count = flow.get(\"counter\") || 0;\n\n// 2. Обрабатываем действие\nif (msg.payload === \"reset\") {\n    count = 0;\n} else {\n    count += 1;\n}\n\n// 3. Сохраняем обновленное значение обратно в flow context\nflow.set(\"counter\", count);\n\n// 4. Выводим статус прямо под узлом на холсте\nnode.status({ fill: \"blue\", shape: \"dot\", text: \"Счётчик: \" + count });\n\n// 5. Формируем сообщение для отладки\nmsg.payload = {\n    student: \"Сирош AI241\",\n    action: msg.payload === \"reset\" ? \"Сброс в 0\" : \"Добавить (+1)\",\n    currentCount: count\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 540,
+        "wires": [
+            [
+                "debug_context_out"
+            ]
+        ]
+    },
+    {
+        "id": "debug_context_out",
+        "type": "debug",
+        "z": "tab_flow_12_sirosh",
+        "name": "Вывод счётчика",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 540,
+        "wires": []
+    }
+]
