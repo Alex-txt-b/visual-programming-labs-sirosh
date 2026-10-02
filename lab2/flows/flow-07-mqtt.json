@@ -1,0 +1,122 @@
+[
+    {
+        "id": "tab_flow_07_sirosh",
+        "type": "tab",
+        "label": "Flow 07 - Sirosh MQTT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "sirosh_inject_random",
+        "type": "inject",
+        "z": "tab_flow_07_sirosh",
+        "name": "Sirosh AI241 (Раз в 5 сек)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "student/sirosh/lab2/sensor",
+        "payload": "$floor($random() * 100)",
+        "payloadType": "jsonata",
+        "x": 550,
+        "y": 400,
+        "wires": [
+            [
+                "sirosh_mqtt_out"
+            ]
+        ]
+    },
+    {
+        "id": "sirosh_mqtt_out",
+        "type": "mqtt out",
+        "z": "tab_flow_07_sirosh",
+        "name": "Sirosh - Публикация MQTT",
+        "topic": "student/sirosh/lab2/sensor",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "sirosh_mqtt_broker",
+        "x": 840,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "sirosh_mqtt_in",
+        "type": "mqtt in",
+        "z": "tab_flow_07_sirosh",
+        "name": "Sirosh - Прием MQTT",
+        "topic": "student/sirosh/lab2/sensor",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "sirosh_mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 530,
+        "y": 500,
+        "wires": [
+            [
+                "sirosh_debug_mqtt"
+            ]
+        ]
+    },
+    {
+        "id": "sirosh_debug_mqtt",
+        "type": "debug",
+        "z": "tab_flow_07_sirosh",
+        "name": "Sirosh AI241 Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "sirosh_mqtt_broker",
+        "type": "mqtt-broker",
+        "name": "HiveMQ Public Broker",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "sirosh-ai241-client",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
