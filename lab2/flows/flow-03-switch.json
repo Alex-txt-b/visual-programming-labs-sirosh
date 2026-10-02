@@ -1,0 +1,152 @@
+[
+    {
+        "id": "tab_flow_03",
+        "type": "tab",
+        "label": "Flow 03 - Sirosh Switch",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "inject_high_03",
+        "type": "inject",
+        "z": "tab_flow_03",
+        "name": "Сирош AI241 (Высокий балл)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "lab2/sirosh/switch",
+        "payload": "[90, 95, 88]",
+        "payloadType": "json",
+        "x": 240,
+        "y": 460,
+        "wires": [
+            [
+                "func_node_03"
+            ]
+        ]
+    },
+    {
+        "id": "inject_low_03",
+        "type": "inject",
+        "z": "tab_flow_03",
+        "name": "Сирош AI241 (Низкий балл)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "lab2/sirosh/switch",
+        "payload": "[65, 70, 60]",
+        "payloadType": "json",
+        "x": 240,
+        "y": 540,
+        "wires": [
+            [
+                "func_node_03"
+            ]
+        ]
+    },
+    {
+        "id": "func_node_03",
+        "type": "function",
+        "z": "tab_flow_03",
+        "name": "Расчет среднего балла",
+        "func": "const student = {\n    lastName: \"Сирош\",\n    firstName: \"Александр\",\n    group: \"AI241\"\n};\n\n// Получаем массив из inject или берем по умолчанию\nconst scores = Array.isArray(msg.payload) ? msg.payload : [85, 92, 78, 95, 64, 88];\nlet total = 0;\n\nfor (let i = 0; i < scores.length; i++) {\n    total += scores[i];\n}\n\nconst average = Number((total / scores.length).toFixed(2));\n\nmsg.topic = \"lab2/sirosh/switch\";\nmsg.payload = {\n    student: student,\n    scores: scores,\n    averageScore: average,\n    status: average >= 75 ? \"Passed\" : \"Failed\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 500,
+        "wires": [
+            [
+                "switch_node_03"
+            ]
+        ]
+    },
+    {
+        "id": "switch_node_03",
+        "type": "switch",
+        "z": "tab_flow_03",
+        "name": "Проверка балла (>= 75)",
+        "property": "payload.averageScore",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "75",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 770,
+        "y": 500,
+        "wires": [
+            [
+                "debug_node_03_high"
+            ],
+            [
+                "debug_node_03_low"
+            ]
+        ]
+    },
+    {
+        "id": "debug_node_03_high",
+        "type": "debug",
+        "z": "tab_flow_03",
+        "name": "Выход 1: Сдан (Passed)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "debug_node_03_low",
+        "type": "debug",
+        "z": "tab_flow_03",
+        "name": "Выход 2: На пересдачу (Failed)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 540,
+        "wires": []
+    }
+]
