@@ -11,7 +11,7 @@
         "id": "e5783cb27f8f286c",
         "type": "inject",
         "z": "51e1c944750c8ed9",
-        "name": "",
+        "name": "Sirosh AI241",
         "props": [
             {
                 "p": "payload"
@@ -21,13 +21,13 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "5",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
+        "topic": "lab2/sirosh/basic",
+        "payload": "Александр ИИ241",
+        "payloadType": "str",
         "x": 460,
         "y": 460,
         "wires": [
@@ -45,7 +45,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
         "x": 680,
