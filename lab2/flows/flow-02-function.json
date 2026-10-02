@@ -1,0 +1,75 @@
+[
+    {
+        "id": "tab_flow_02",
+        "type": "tab",
+        "label": "Flow 02 - Sirosh Function",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "inject_node_02",
+        "type": "inject",
+        "z": "tab_flow_02",
+        "name": "Запуск расчета",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "lab2/sirosh/function",
+        "payload": "start",
+        "payloadType": "str",
+        "x": 310,
+        "y": 380,
+        "wires": [
+            [
+                "func_node_02"
+            ]
+        ]
+    },
+    {
+        "id": "func_node_02",
+        "type": "function",
+        "z": "tab_flow_02",
+        "name": "Обработка данных (AI241)",
+        "func": "// 1. Использование const и объекта\nconst student = {\n    lastName: \"Сирош\",\n    firstName: \"Александр\",\n    group: \"AI241\"\n};\n\n// 2. Использование массива с баллами\nconst scores = [85, 92, 78, 95, 64, 88];\n\n// 3. Использование let\nlet total = 0;\nlet honorsCount = 0;\n\n// 4. Цикл for для обхода массива\nfor (let i = 0; i < scores.length; i++) {\n    total += scores[i];\n    \n    // 5. Конструкция if / else\n    if (scores[i] >= 90) {\n        honorsCount++;\n    } else {\n        // обычный балл\n    }\n}\n\nconst average = total / scores.length;\n\n// 6. Возвращаем объект в msg.payload\nmsg.topic = \"lab2/sirosh/function\";\nmsg.payload = {\n    student: student,\n    allScores: scores,\n    averageScore: Number(average.toFixed(2)),\n    honorsCount: honorsCount,\n    status: average >= 75 ? \"Passed\" : \"Needs Review\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 380,
+        "wires": [
+            [
+                "debug_node_02"
+            ]
+        ]
+    },
+    {
+        "id": "debug_node_02",
+        "type": "debug",
+        "z": "tab_flow_02",
+        "name": "Результат расчета",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 380,
+        "wires": []
+    }
+]
