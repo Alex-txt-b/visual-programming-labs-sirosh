@@ -1,0 +1,98 @@
+[
+    {
+        "id": "tab_flow_10_sirosh",
+        "type": "tab",
+        "label": "Flow 10 - Sirosh Telegram",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "tg_receiver_node",
+        "type": "telegram receiver",
+        "z": "tab_flow_10_sirosh",
+        "name": "Сирош AI241 (Прием сообщений)",
+        "bot": "tg_config_sirosh",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "hasinput": false,
+        "inputs": 0,
+        "handleallupdates": false,
+        "handleprocessupdates": false,
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "tg_fn_logic"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "tg_fn_logic",
+        "type": "function",
+        "z": "tab_flow_10_sirosh",
+        "name": "Обработка команд и эхо",
+        "func": "const chatId = msg.payload.chatId;\nconst text = msg.payload.content || \"\";\n\n// 1. Обязательная команда /start\nif (text === \"/start\") {\n    msg.payload = {\n        chatId: chatId,\n        type: \"message\",\n        content: \"Привет! Я бот студента Сирош (группа AI241).\\nДоступные команды:\\n/start — перезапуск бота\\n/info — информация о студенте\\nИли просто напишите любой текст для эхо-ответа!\"\n    };\n}\n// 2. Команда на выбор студента (/info)\nelse if (text === \"/info\") {\n    msg.payload = {\n        chatId: chatId,\n        type: \"message\",\n        content: \"Лабораторная работа 2.10\\nСтудент: Сирош\\nГруппа: AI241\\nСервер: Node-RED на localhost:1880\\nСтатус: Бот работает отлично!\"\n    };\n}\n// 3. Эхо-ответ на любое произвольное сообщение\nelse {\n    msg.payload = {\n        chatId: chatId,\n        type: \"message\",\n        content: \"Эхо: \" + text\n    };\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 180,
+        "wires": [
+            [
+                "tg_sender_node"
+            ]
+        ]
+    },
+    {
+        "id": "tg_sender_node",
+        "type": "telegram sender",
+        "z": "tab_flow_10_sirosh",
+        "name": "Отправка ответа",
+        "bot": "tg_config_sirosh",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 790,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "tg_config_sirosh",
+        "type": "telegram bot",
+        "botname": "tvl_lab2_sirosh_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "",
+        "localbotport": "8443",
+        "publicbotport": "",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "420419ffe15d307d",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-telegrambot": "19.0.3"
+        }
+    }
+]
