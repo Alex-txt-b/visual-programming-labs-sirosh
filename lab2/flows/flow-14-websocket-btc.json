@@ -1,0 +1,142 @@
+[
+    {
+        "id": "tab_flow_14_sirosh",
+        "type": "tab",
+        "label": "Flow 14 - Sirosh WebSocket BTC",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ws_in_btc",
+        "type": "websocket in",
+        "z": "tab_flow_14_sirosh",
+        "name": "Сирош AI241 (Binance WebSocket)",
+        "server": "",
+        "client": "ws_client_binance",
+        "x": 230,
+        "y": 180,
+        "wires": [
+            [
+                "fn_parse_btc"
+            ]
+        ]
+    },
+    {
+        "id": "fn_parse_btc",
+        "type": "function",
+        "z": "tab_flow_14_sirosh",
+        "name": "Парсинг курса BTC",
+        "func": "let data = msg.payload;\n\n// Если пришла строка, парсим JSON\nif (typeof data === \"string\") {\n    data = JSON.parse(data);\n}\n\n// Поле 'c' в Binance Ticker означает текущую цену закрытия (Close Price)\nlet price = parseFloat(data.c);\n\n// Показываем цену в статусе под узлом\nnode.status({ fill: \"green\", shape: \"dot\", text: `$${price.toFixed(2)}` });\n\nmsg.payload = price;\nmsg.topic = \"BTC / USDT\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 180,
+        "wires": [
+            [
+                "ui_chart_btc",
+                "ui_text_btc"
+            ]
+        ]
+    },
+    {
+        "id": "ui_chart_btc",
+        "type": "ui_chart",
+        "z": "tab_flow_14_sirosh",
+        "name": "График курса BTC",
+        "group": "ui_group_btc",
+        "order": 2,
+        "width": "8",
+        "height": "6",
+        "label": "Динамика цены в реальном времени (USD)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "Ожидание данных с WebSocket...",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "5",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#ff9900",
+            "#aec7e8",
+            "#1f77b4",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 780,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ui_text_btc",
+        "type": "ui_text",
+        "z": "tab_flow_14_sirosh",
+        "group": "ui_group_btc",
+        "order": 1,
+        "width": "4",
+        "height": "3",
+        "name": "",
+        "label": "Текущая цена (BTC/USDT):",
+        "format": "<h2 style='color:#ff9900; margin:0;'>${{msg.payload}}</h2>",
+        "layout": "col-center",
+        "className": "",
+        "x": 780,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "ws_client_binance",
+        "type": "websocket-client",
+        "path": "wss://stream.binance.com:9443/ws/btcusdt@ticker",
+        "tls": "",
+        "wholemsg": "false",
+        "hb": "0",
+        "subprotocol": ""
+    },
+    {
+        "id": "ui_group_btc",
+        "type": "ui_group",
+        "name": "Курс Bitcoin (Live WebSocket)",
+        "tab": "ui_tab_crypto",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "ui_tab_crypto",
+        "type": "ui_tab",
+        "name": "Криптовалюта",
+        "icon": "show_chart",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "934e8e7084dff763",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
