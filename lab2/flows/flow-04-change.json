@@ -1,0 +1,92 @@
+[
+    {
+        "id": "tab_flow_04",
+        "type": "tab",
+        "label": "Flow 04 - Sirosh Change",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "inject_node_04",
+        "type": "inject",
+        "z": "tab_flow_04",
+        "name": "Триггер (Сирош AI241)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 470,
+        "y": 500,
+        "wires": [
+            [
+                "change_node_04"
+            ]
+        ]
+    },
+    {
+        "id": "change_node_04",
+        "type": "change",
+        "z": "tab_flow_04",
+        "name": "Настройка topic, timestamp, payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "lab2/sirosh/change",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "timestamp",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"student\":\"Сирош Александр\",\"group\":\"AI241\",\"task\":\"2.4 Change Node\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 500,
+        "wires": [
+            [
+                "debug_node_04"
+            ]
+        ]
+    },
+    {
+        "id": "debug_node_04",
+        "type": "debug",
+        "z": "tab_flow_04",
+        "name": "Debug Complete Msg",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 500,
+        "wires": []
+    }
+]
