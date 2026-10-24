@@ -1,0 +1,61 @@
+{
+  "name": "flow-05-http-sirosh-ii241",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "f5a1-1111",
+      "name": "When clicking ‘Execute workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.chucknorris.io/jokes/random",
+        "options": {}
+      },
+      "id": "f5a1-2222",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const jokeData = $input.first().json;\n\nreturn [\n  {\n    json: {\n      student: \"Sirosh Sasha\",\n      group: \"ИИ-241\",\n      apiEndpoint: \"https://api.chucknorris.io/jokes/random\",\n      joke: jokeData.value,\n      fetchedAt: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "id": "f5a1-3333",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 300]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

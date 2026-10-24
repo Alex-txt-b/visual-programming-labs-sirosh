@@ -1,0 +1,48 @@
+{
+  "name": "flow-06-schedule-sirosh-ii241",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "f6a1-1111",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date();\n\nreturn [\n  {\n    json: {\n      student: \"Sirosh Sasha\",\n      group: \"ИИ-241\",\n      currentTimeISO: now.toISOString(),\n      timestampMs: now.getTime(),\n      message: \"Execution by schedule interval\"\n    }\n  }\n];"
+      },
+      "id": "f6a1-2222",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
