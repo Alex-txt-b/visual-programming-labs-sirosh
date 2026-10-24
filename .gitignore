@@ -7,3 +7,8 @@ Thumbs.db
 
 # Временные файлы
 *.tmp
+
+# n8n & redis data
+lab4/n8n_data/
+lab4/local_data/
+lab4/redis_data/
