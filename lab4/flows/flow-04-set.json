@@ -1,0 +1,76 @@
+{
+  "name": "flow-04-set-sirosh-ii241",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "f4a1-1111",
+      "name": "When clicking ‘Execute workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "topic",
+              "stringValue": "lab4/sirosh/fields"
+            },
+            {
+              "name": "timestamp",
+              "stringValue": "={{ $now.toISO() }}"
+            },
+            {
+              "name": "payload",
+              "stringValue": "Sirosh Sasha ИИ-241 updated payload"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f4a1-2222",
+      "name": "Edit Fields (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const completeMsgObject = $input.first().json;\nconsole.log('Complete MSG Object:', completeMsgObject);\n\nreturn [\n  {\n    json: {\n      receivedMsg: completeMsgObject,\n      debugInfo: {\n        hasTopic: Boolean(completeMsgObject.topic),\n        hasTimestamp: Boolean(completeMsgObject.timestamp),\n        student: \"Sirosh Sasha\",\n        group: \"ИИ-241\"\n      }\n    }\n  }\n];"
+      },
+      "id": "f4a1-3333",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 300]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Set)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Set)": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
