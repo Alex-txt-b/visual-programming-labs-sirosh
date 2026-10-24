@@ -1,0 +1,95 @@
+{
+  "name": "flow-01-manual-set-sirosh-ii241",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "58be5a01-fde6-4929-b3e8-adcbc244ec04",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6c69817d-8685-456b-9bff-8e6a94b15246",
+              "name": "payload",
+              "value": "Sirosh Sasha ИИ-241",
+              "type": "string"
+            },
+            {
+              "id": "1efb8151-b0f7-4b86-8b91-96e13b9c451e",
+              "name": "topic",
+              "value": "lab4/sirosh/basic",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "7eea3518-1003-4b4f-baec-2f3dcdf8d890",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('Received data:', $input.first().json);\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "3a89ae4e-7a56-43ff-aa45-229c28fa355b",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5543641c-4d5b-4c90-999a-1056dfa73bed",
+  "meta": {
+    "instanceId": "93e57732cbd1f0bf5a76947f3ff816ebf8064fc58f66daa255b9be0f2531a5a8"
+  },
+  "nodeGroups": [],
+  "id": "H49ezkLhyJVw0OEu",
+  "tags": []
+}
