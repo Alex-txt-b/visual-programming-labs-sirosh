@@ -1,0 +1,58 @@
+{
+  "name": "flow-02-code-sirosh-ii241",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e5c1a7f2-1111-4b72-8888-000000000001",
+      "name": "When clicking ‘Execute workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const student = \"Sirosh Sasha\";\nconst group = \"ИИ-241\";\nconst numbers = [10, 20, 30, 40, 50];\n\nlet total = 0;\nfor (let i = 0; i < numbers.length; i++) {\n  total += numbers[i];\n}\n\nlet status = \"\";\nif (total > 100) {\n  status = \"Success: total exceeds threshold\";\n} else {\n  status = \"Pending: total is low\";\n}\n\nconst resultObj = {\n  student: student,\n  group: group,\n  calculatedTotal: total,\n  status: status,\n  timestamp: new Date().toISOString()\n};\n\nreturn [\n  {\n    json: {\n      payload: resultObj\n    }\n  }\n];"
+      },
+      "id": "e5c1a7f2-2222-4b72-8888-000000000002",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {},
+      "id": "e5c1a7f2-3333-4b72-8888-000000000003",
+      "name": "NoOp",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [660, 300]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "NoOp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
