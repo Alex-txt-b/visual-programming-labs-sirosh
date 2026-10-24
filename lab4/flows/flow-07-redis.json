@@ -1,0 +1,131 @@
+{
+  "name": "flow-07-redis-sirosh-ii241",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "r1-1111",
+      "name": "When clicking ‘Execute workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [180, 300]
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "sirosh:ii241:status",
+        "value": "Active - Lab 4 completed by Sirosh Sasha"
+      },
+      "id": "r1-2222",
+      "name": "1. Redis: Set Key",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [380, 300],
+      "credentials": {
+        "redis": {
+          "id": "",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "sirosh:ii241:status"
+      },
+      "id": "r1-3333",
+      "name": "2. Redis: Get Key",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [580, 300],
+      "credentials": {
+        "redis": {
+          "id": "",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "sirosh:ii241:status"
+      },
+      "id": "r1-4444",
+      "name": "3. Redis: Delete Key",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [780, 300],
+      "credentials": {
+        "redis": {
+          "id": "",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "key": "sirosh:ii241:status"
+      },
+      "id": "r1-5555",
+      "name": "4. Redis: Verify Absence",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [980, 300],
+      "credentials": {
+        "redis": {
+          "id": "",
+          "name": "Redis account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "1. Redis: Set Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Redis: Set Key": {
+      "main": [
+        [
+          {
+            "node": "2. Redis: Get Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Redis: Get Key": {
+      "main": [
+        [
+          {
+            "node": "3. Redis: Delete Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Redis: Delete Key": {
+      "main": [
+        [
+          {
+            "node": "4. Redis: Verify Absence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
